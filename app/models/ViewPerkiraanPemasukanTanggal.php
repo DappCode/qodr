@@ -98,6 +98,9 @@ class ViewPerkiraanPemasukanTanggal extends \Phalcon\Mvc\Model
             $dataUser[] = $no;
             $dataUser[] = $value->tanggal_cair;
             $dataUser[] = $value->penghasilan;
+            $dataUser[] = '
+            <button id="btn-view" type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default" 
+            onclick="return send_data_view_penghasilan(\''.$value->tanggal_cair.'\');">View</button>';
           
 
             $data[] = $dataUser;
@@ -130,6 +133,7 @@ class ViewPerkiraanPemasukanTanggal extends \Phalcon\Mvc\Model
             $tanggal = str_replace(' ','',$value->tanggal_cair);
             $dataUser['tanggal'] = $value->tanggal_cair;
             $dataUser['nominal'] = $value->penghasilan;
+            
 
             $data[] = $dataUser;
         }

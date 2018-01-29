@@ -182,6 +182,7 @@
                                             <th>No.</th>
                                             <th>Tanggal Cair</th>
                                             <th>Penghasilan</th>
+                                            <th> Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -394,6 +395,37 @@
                 //     $('#data_keuharian tr > td').prepend(x);
                 // });
 
+            }
+        });
+    }
+
+    function send_data_view_penghasilan(tanggal_cair) {
+        $('.modal-title').text('Penghasilan Hari ' + tanggal_cair);
+        $('.colm-1').text('Tanggal Perkiraan');
+        $('.colm-2').text('Pemasukan Dari');
+        $('.colm-3').text('Nominal');
+        $('.colm-4').text('Keterangan');
+        $('.colm-5, .colm-7, .colm-6, .colm-8').hide();
+
+        $('.btnAction').attr('class', "btn btn-outline btnAction");
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: "{{url('RekapHarian/getDataPenghasilanPerhari')}}/" + tanggal_cair,
+            success: function (response) {
+                var trHTML = '';
+
+                $.each(response, function (i, item) {
+                    trHTML += '<tr><td>' + item.tgl_perkiraan +
+                        '</td><td>' + item.pemasukan_dari +
+                        '</td><td>' + item.nominal +
+                        '</td><td>' + item.judul;
+                });
+                $('#data_keuharian').append(trHTML);
+
+                $('#modal-default').on('click', function () {
+                    $('#data_keuharian tr > td').remove();
+                });
             }
         });
     }

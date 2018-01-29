@@ -108,8 +108,8 @@ class RekapharianController extends \Phalcon\Mvc\Controller
 
     public function getDataPemasukanPerhariAction($hari)
     {
-            $keu_harian = KeuHarian::find("tanggal='$hari' AND debit!='0'");
-            die(json_encode($keu_harian));
+        $keu_harian = KeuHarian::find("tanggal='$hari' AND debit!='0'");
+        die(json_encode($keu_harian));
         
     }
     // /Pemasukan
@@ -121,6 +121,13 @@ class RekapharianController extends \Phalcon\Mvc\Controller
         $user = new ViewPerkiraanPemasukanTanggal();
         $json_data = $user->getDataPenghasilan();
         die(json_encode($json_data));
+    }
+
+    public function getDataPenghasilanPerhariAction($tanggal_cair)
+    {
+        $tanggal_cair = str_replace(' ','',$tanggal_cair);
+        $keu_perkiraan_pemasukan = KeuPerkiraanPemasukan::find("tgl_perkiraan='$tanggal_cair'");
+        die(json_encode($keu_perkiraan_pemasukan));
     }
     // /Penghasilan
 }

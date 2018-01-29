@@ -14,9 +14,6 @@
             <li class="">
                 <a href="#tab_4" data-toggle="tab" aria-expanded="false">Perkiraan Pemasukan</a>
             </li>
-            <li class="">
-                <a href="#tab_5" data-toggle="tab" aria-expanded="false">Graphic</a>
-            </li>
 
             <li class="pull-right">
                 <a href="#" class="text-muted">
@@ -185,6 +182,7 @@
                                             <th>No.</th>
                                             <th>Tanggal Cair</th>
                                             <th>Penghasilan</th>
+                                            <th> Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -199,28 +197,6 @@
                     <!-- /.col -->
                 </div>
             </div>
-            <!-- /.tab-pane -->
-            <div class="tab-pane fade" id="tab_5">                  
-                <!-- /.box-header -->
-                <section class="content">
-                    <div class="box box-info">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Line Chart</h3>
-
-                            <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body chart-responsive">
-                            <div class="chart" id="line-chart" style="height: 300px;"></div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </section>
-            </div>
-            <!-- /.tab-pane -->
         </div>
         <!-- /.tab-content -->
     </div>
@@ -419,6 +395,37 @@
                 //     $('#data_keuharian tr > td').prepend(x);
                 // });
 
+            }
+        });
+    }
+
+    function send_data_view_penghasilan(tanggal_cair) {
+        $('.modal-title').text('Penghasilan Hari ' + tanggal_cair);
+        $('.colm-1').text('Tanggal Perkiraan');
+        $('.colm-2').text('Pemasukan Dari');
+        $('.colm-3').text('Nominal');
+        $('.colm-4').text('Keterangan');
+        $('.colm-5, .colm-7, .colm-6, .colm-8').hide();
+
+        $('.btnAction').attr('class', "btn btn-outline btnAction");
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: "<?= $this->url->get('RekapHarian/getDataPenghasilanPerhari') ?>/" + tanggal_cair,
+            success: function (response) {
+                var trHTML = '';
+
+                $.each(response, function (i, item) {
+                    trHTML += '<tr><td>' + item.tgl_perkiraan +
+                        '</td><td>' + item.pemasukan_dari +
+                        '</td><td>' + item.nominal +
+                        '</td><td>' + item.judul;
+                });
+                $('#data_keuharian').append(trHTML);
+
+                $('#modal-default').on('click', function () {
+                    $('#data_keuharian tr > td').remove();
+                });
             }
         });
     }
