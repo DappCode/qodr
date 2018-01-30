@@ -16,3 +16,19 @@
 {{ javascript_include("assets/pnotify/pnotify.buttons.js")}} 
 {{ javascript_include("assets/pnotify/pnotify.nonblock.js")}}
 
+// <script>
+//   $(function () {
+//     $('#pemasukan').DataTable({
+//       'paging'      : true,
+//       'lengthChange': false,
+//       'searching'   : false,
+//       'ordering'    : true,
+//       'info'        : true,
+//       'autoWidth'   : false,
+//       'serverSide'	: true,
+//       'processing': true,
+
+//     })
+//   })
+// </script>
+
