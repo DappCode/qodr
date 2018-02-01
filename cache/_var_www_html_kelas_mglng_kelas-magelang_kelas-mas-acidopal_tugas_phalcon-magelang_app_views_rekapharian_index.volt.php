@@ -215,19 +215,19 @@
             <div class="modal-body">
                 <div class="box-body">
                     <table id="data_keuharian" class="table table-bordered table-striped listUser display responsive no-wrap">
-                        <thead>
+                        <!-- <thead>
                             <tr>
                                 <th class="colm-1">Akun ID</th>
                                 <th class="colm-2">ID</th>
-                                <th class="colm-7">Tanggal</th>
-                                <th class="colm-3">JML Barang</th>
-                                <th class="colm-4">Keterangan</th>
-                                <th class="colm-5">Kredit</th>
-                                <th class="colm-6">Pelaku</th>
+                                <th class="colm-3">Tanggal</th>
+                                <th class="colm-4">JML Barang</th>
+                                <th class="colm-5">Keterangan</th>
+                                <th class="colm-6">Kredit</th>
+                                <th class="colm-7">Pelaku</th>
                                 <th class="colm-8">Total Harga</th>
 
                             </tr>
-                        </thead>
+                        </thead> -->
                         <tbody>
 
                         </tbody>
@@ -244,6 +244,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
 
 
 <script>
@@ -290,8 +291,8 @@
             }
         });
     });
+    
     $(document).ready(function () {
-
         var dataTable = $('#pemasukan').DataTable({
             "processing": true,
             "serverSide": true,
@@ -301,6 +302,7 @@
             }
         });
     });
+    
     $(document).ready(function () {
         var dataTable = $('#penghasilan').DataTable({
             "processing": true,
@@ -314,8 +316,6 @@
     //  VIEW Pemasukan  
     function send_data_view_pemasukan(Hari) {
         $('.modal-title').text('Pemasukan Hari ' + Hari);
-        $('.colm-5').text('Nominal');
-        $('.colm-1, .colm-3, .colm-6, .colm-8').hide();
 
         $('.btnAction').attr('class', "btn btn-outline btnAction");
         $.ajax({
@@ -324,7 +324,7 @@
             url: "<?= $this->url->get('RekapHarian/getDataPemasukanPerhari') ?>/" + Hari,
             success: function (response) {
                 var trHTML = '';
-
+                trHTML += '<thead><tr><th>ID</th><th>Tanggal</th><th>Keterangan</th><th>Pengeluaran</th></tr></thead>';
                 $.each(response, function (i, item) {
                     trHTML += '<tr><td>' + item.id +
                         '</td><td>' + item.tanggal +
@@ -332,11 +332,11 @@
                         '<br> - ' + item.keterangan +
                         '</td><td>' + item.debit;
                 });
-                $('#data_keuharian').append(trHTML);
+                $('#data_keuharian').html(trHTML);
 
-                $('#modal-default').on('click', function () {
-                    $('#data_keuharian tr > td').remove();
-                });
+                // $('#modal-default').on('click', function () {
+                //     $('#data_keuharian tr > td').remove();
+                // });
             }
         });
     }
@@ -346,17 +346,14 @@
     function send_data_view_pengeluaran(Hari) {
         $('.modal-title').text('Pengeluaran Hari ' + Hari);
         $('.btnAction').attr('class', "btn btn-outline btnAction");
-        $('.colm-5').text('Kredit');
-        $('.colm-1, .colm-3, .colm-6, .colm-8').show();
-
-
-
+       
         $.ajax({
             method: "POST",
             dataType: "json",
             url: "<?= $this->url->get('Rekapharian/getDataPengeluaranPerhari') ?>/" + Hari,
             success: function (response) {
                 var trHTML = '';
+                trHTML += '<thead><tr><th class="colm-1">Akun ID</th><th class="colm-2">ID</th><th class="colm-3">Tanggal</th><th class="colm-4">JML Barang</th><th class="colm-5">Keterangan</th><th class="colm-6">Kredit</th><th class="colm-7">Pelaku</th><th class="colm-8">Total Harga</th></tr></thead>';
                 $.each(response, function (i, item) {
                     trHTML += '<tr><td>' + item.akun_id +
                         '</td><td>' + item.id +
@@ -367,16 +364,16 @@
                         '</td><td>' + item.pelaku +
                         '</td><td>' + item.total_harga + '</td></tr>';
                 });
-                $('#data_keuharian').append(trHTML);
+                $('#data_keuharian').html(trHTML);
 
                 // Cara Mereload window
                 //  $('#btn-close').click(function() {
                 //     window.location.reload();
 
                 // Cara Simpel
-                $('#modal-default').on('click', function () {
-                    $('#data_keuharian tr > td').remove();
-                });
+                // $('#modal-default').on('click', function () {
+                //     $('#data_keuharian tr > td').remove();
+                // });
                 //     return false;
                 // });
                 //  $('#btn-close').click(function(){
@@ -401,11 +398,6 @@
 
     function send_data_view_penghasilan(tanggal_cair) {
         $('.modal-title').text('Penghasilan Hari ' + tanggal_cair);
-        $('.colm-1').text('Tanggal Perkiraan');
-        $('.colm-2').text('Pemasukan Dari');
-        $('.colm-3').text('Nominal');
-        $('.colm-4').text('Keterangan');
-        $('.colm-5, .colm-7, .colm-6, .colm-8').hide();
 
         $('.btnAction').attr('class', "btn btn-outline btnAction");
         $.ajax({
@@ -414,18 +406,20 @@
             url: "<?= $this->url->get('RekapHarian/getDataPenghasilanPerhari') ?>/" + tanggal_cair,
             success: function (response) {
                 var trHTML = '';
+                trHTML += '<thead><tr><th>Tanggal Perkiraan</th><th>Pemasukan Dari</th><th>Nominal</th><th>Keterangan</th><th>Input Time</th></tr></thead>';
 
                 $.each(response, function (i, item) {
                     trHTML += '<tr><td>' + item.tgl_perkiraan +
                         '</td><td>' + item.pemasukan_dari +
                         '</td><td>' + item.nominal +
-                        '</td><td>' + item.judul;
+                        '</td><td>' + item.judul +
+                        '</td><td>' + item.input_time;
                 });
-                $('#data_keuharian').append(trHTML);
+                $('#data_keuharian').html(trHTML);
 
-                $('#modal-default').on('click', function () {
-                    $('#data_keuharian tr > td').remove();
-                });
+                // $('#modal-default').on('click', function () {
+                //     $('#data_keuharian tr > td').remove();
+                // });
             }
         });
     }

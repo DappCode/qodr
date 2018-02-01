@@ -59,7 +59,7 @@
                             <i class="fa fa-circle-o"></i>Rekap Harian</a>
                     </li>
                     <li>
-                        <a href="index2.html">
+                        <a href="rekapBulanan">
                             <i class="fa fa-circle-o"></i>Rekap Bulanan</a>
                     </li>
                     <li>

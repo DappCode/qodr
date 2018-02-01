@@ -386,7 +386,7 @@
                             <i class="fa fa-circle-o"></i>Rekap Harian</a>
                     </li>
                     <li>
-                        <a href="index2.html">
+                        <a href="rekapBulanan">
                             <i class="fa fa-circle-o"></i>Rekap Bulanan</a>
                     </li>
                     <li>
@@ -402,7 +402,7 @@
                             <i class="fa fa-circle-o"></i>Histori</a>
                     </li>
                     <li class="treeview menu-open">
-                        <a>
+                        <a href="graphicharian">
                             <i class="fa fa-circle-o"></i> Graphic
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -410,7 +410,7 @@
                         </a>
                         <ul class="treeview-menu" style="display: block;">
                             <li>
-                                <a href="graphic">
+                                <a href="graphicharian">
                                     <i class="fa fa-circle-o"></i> Graphic Perhari</a>
                             </li>
                             <li>
