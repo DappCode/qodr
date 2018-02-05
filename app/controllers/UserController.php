@@ -32,6 +32,12 @@ class UserController extends \Phalcon\Mvc\Controller
             $username  = $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $type = $this->request->getPost('type');
+            
+            $upload_dir = BASE_PATH . '/public/uploads/';
+            foreach ($this->request->getUploadedFiles() as $file) {
+                $file->moveTo($upload_dir . $file->getName());
+                $foto_user = $file->getName();
+            }
             $id = "ID-".$username;
             
             $user->assign(array(

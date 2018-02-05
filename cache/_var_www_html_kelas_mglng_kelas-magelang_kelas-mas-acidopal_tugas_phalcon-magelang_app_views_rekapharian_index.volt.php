@@ -1,4 +1,5 @@
-<div class="col-md-12">
+<section class="content">
+
     <!-- Custom Tabs -->
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
@@ -13,6 +14,9 @@
             </li>
             <li class="">
                 <a href="#tab_4" data-toggle="tab" aria-expanded="false">Perkiraan Pemasukan</a>
+            </li>
+            <li class="">
+                <a href="#tab_5" data-toggle="tab" aria-expanded="false">Graphic</a>
             </li>
 
             <li class="pull-right">
@@ -197,12 +201,45 @@
                     <!-- /.col -->
                 </div>
             </div>
+
+            <div class="tab-pane" id="tab_5">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Graphic</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                
+                                <section class="content">
+                                    <div class="nav-tabs-custom">
+                                                <!-- Tabs within a box -->
+                                        <ul class="nav nav-tabs pull-right">
+                                        <li class="pull-left header"><i class="fa fa-area-chart" aria-hidden="true"></i> Graphic Harian </li>
+                                        </ul>
+                                        <div class="tab-content no-padding">
+                                        <!-- Morris chart - Sales -->
+                                        <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+                                        
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.tab-pane -->
         </div>
         <!-- /.tab-content -->
     </div>
     <!-- nav-tabs-custom -->
-</div>
 
+</section>
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -333,10 +370,6 @@
                         '</td><td>' + item.debit;
                 });
                 $('#data_keuharian').html(trHTML);
-
-                // $('#modal-default').on('click', function () {
-                //     $('#data_keuharian tr > td').remove();
-                // });
             }
         });
     }
@@ -417,10 +450,26 @@
                 });
                 $('#data_keuharian').html(trHTML);
 
-                // $('#modal-default').on('click', function () {
-                //     $('#data_keuharian tr > td').remove();
-                // });
             }
         });
     }
+
+    $.ajax({
+    method : "GET",
+    dataType: "html",
+    url : "<?= $this->url->get('Graphicharian/getGraphic') ?>",
+    success: function(result){
+            var area = new Morris.Area({
+                element   : 'revenue-chart',
+                resize    : true,
+                data      : JSON.parse(result),
+                xkey      : 'Tanggal',
+                ykeys     : ['Pemasukan', 'Pengeluaran'],
+                labels    : ['Pemasukan', 'Pengeluaran'],
+                parseTime : false,
+                lineColors: ['#a0d0e0', '#3c8dbc'],
+                hideHover : 'auto'
+            });
+        }
+    });
 </script>
