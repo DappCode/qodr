@@ -37,4 +37,22 @@ class Helpers
             echo "<option value=".($i+1)."> $bulan[$i] </option>";
         }
     }
+    
+    public function dataBulan($selected =  null)
+    {
+       $Bulan = ViewPengeluaranPerhari::find([
+          'columns' => 'DATE_FORMAT(Hari, "%Y-%m") AS Bulan',
+          'group' => 'Bulan'
+       ]);
+       $dataBulan = '<option value="">- Pilih Bulan -</option>';
+       foreach ($Bulan as $key => $value) {
+          if ($selected == date("m", strtotime($value->Bulan))) {
+             $dataBulan.='<option value="'.date("m", strtotime($value->Bulan)).'" selected>'.date('F', strtotime($value->Bulan)).'</option>';
+          } else {
+             $dataBulan.='<option value="'.date('m',strtotime($value->Bulan)).'" >'.date('F',strtotime($value->Bulan)).'</option>';
+             
+          }
+       }
+       return $dataBulan;
+    }
 }

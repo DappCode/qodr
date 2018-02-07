@@ -5,9 +5,9 @@ class RekapharianController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        if (!$this->session->has('auth')) {
-            $this->response->redirect('login');
-        }
+        // if (!$this->session->has('auth')) {
+        //     $this->response->redirect('login');
+        // }
     }
 
     // RAB
@@ -74,7 +74,17 @@ class RekapharianController extends \Phalcon\Mvc\Controller
     public function getAjaxPengeluaranAction()
     {
         $user = new ViewPengeluaranPerhari();
-        $json_data = $user->getDataPengeluaran();
+        $bulan = '%';
+        if (!empty($_POST["Bulan"])) {
+            $bulan = $this->request->getPost('Bulan');
+        } 
+        if ($bulan != '') {
+            $json_data = $user->filter($bulan);
+         } else {
+            $json_data = $user->getDataPengeluaran();
+         }
+
+        
         die(json_encode($json_data));
     }
 

@@ -28,5 +28,14 @@ class RekapbulananController extends \Phalcon\Mvc\Controller
      }
 
      // /Pengeluaran
+
+     // Perkiraan Pemasukkan 
+    public function getAjaxPenghasilanAction()
+    {
+        $penghasilan = new ViewPerkiraanPemasukanBulan();
+        $json_data = $penghasilan->getDataPenghasilan();
+        die(json_encode($json_data));
+    }
+    //  /Perkiraan Pemasukan
 }
 

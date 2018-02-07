@@ -174,4 +174,53 @@ class ViewPengeluaranPerhari extends \Phalcon\Mvc\Model
         
         return $json_data; 
     }
+
+    public function filter($Bulan)
+    {
+
+    $requestData = $_REQUEST;
+    $requestSearch = strtoupper($requestData['search']['value']);
+
+    $filter = '%'.$Bulan.'-%';
+
+       $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '$filter'";
+       $query = $this->modelsManager->executeQuery($sql);
+       $totalData = count($query);
+       $totalFiltered = $totalData;  
+       $no = $requestData['start']+1;
+       $start = $requestData['start'];
+       $length = $requestData['length'];
+       if (!empty($requestSearch)) {
+           //function mencari data user
+               $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '%".$requestSearch."%'";
+               $sql.= "OR Pengeluaran LIKE '%".$requestSearch."%'";
+               $query = $this->modelsManager->executeQuery($sql); 
+               $totalFiltered = count($query);
+   
+               $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
+               $query = $this->modelsManager->executeQuery($sql); 
+           } else {
+           //function menampilkan seluruh data
+               $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '$filter' limit $start,$length" ;
+               $query = $this->modelsManager->executeQuery($sql); 
+           }
+       $data = array();
+       $no = $requestData['start']+1;
+       
+       foreach($query as $key => $value) {
+          $dataAkun = array();
+          $dataAkun[] = $no;
+          $dataAkun[] = $value->Hari; 
+          $dataAkun[] = "Rp ".number_format($value->Pengeluaran);
+          $data[] = $dataAkun;
+          $no++;
+       }
+       $json_data = array(
+          "draw"            => intval( $requestData['draw'] ),
+          "recordsTotal"    => intval( $totalData ),
+          "recordsFiltered" => intval( $totalFiltered ),
+          "data"            => $data
+       );
+       return $json_data;
+    }
 }

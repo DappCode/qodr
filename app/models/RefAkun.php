@@ -58,4 +58,30 @@ class RefAkun extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function getData()
+    {
+        $sql = "select * from ViewPengeluaranPerhari group by Hari";
+        $query = $this->modelsManager->executeQuery($sql);
+
+        $no = $requestData["start"]+1;
+        $data = array();
+
+        foreach($query as $key => $value) {
+            $dataAkun = array();
+            $dataAkun[] = $no;
+            $dataAkun[] = $value->Hari;
+            $dataAkun[] = $value->Pengeluaran;
+
+            $data[] = $dataAkun;
+            $no++;
+        }
+
+        $json_data = array(
+            "draw"            => intval( $requestData['draw'] ),
+            "recordsTotal"    => intval( $totalData ),
+            "recordsFiltered" => intval( $totalFiltered ),
+            "data"            => $data
+         );
+         return $json_data;
+    }
 }

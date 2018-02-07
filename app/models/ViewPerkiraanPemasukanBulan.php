@@ -1,21 +1,21 @@
 <?php
 
-class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
+class ViewPerkiraanPemasukanBulan extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var string
-     * @Column(type="string", length=7, nullable=true)
+     * @Column(type="string", length=9, nullable=true)
      */
-    public $Bulan;
+    public $bulan_cair;
 
     /**
      *
      * @var double
      * @Column(type="double", length=32, nullable=true)
      */
-    public $pemasukan;
+    public $penghasilan;
 
     /**
      * Initialize method for model.
@@ -32,14 +32,14 @@ class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'view_pemasukan_perbulan';
+        return 'view_perkiraan_pemasukan_bulan';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ViewPemasukanPerbulan[]|ViewPemasukanPerbulan
+     * @return ViewPerkiraanPemasukanBulan[]|ViewPerkiraanPemasukanBulan
      */
     public static function find($parameters = null)
     {
@@ -50,25 +50,25 @@ class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ViewPemasukanPerbulan
+     * @return ViewPerkiraanPemasukanBulan
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
 
-    public function getDataPemasukan()
+    public function getDataPenghasilan()
     {
         $requestData = $_REQUEST;
         $requestSearch = strtoupper($requestData['search']['value']);
 
         $columns = array(
-            0 => 'Bulan',
-            1 => 'pemasukan',
+            0 => 'bulan_cair',
+            1 => 'penghasilan',
             
         );
 
-        $sql = "SELECT * FROM ViewPemasukanPerbulan";
+        $sql = "SELECT * FROM ViewPerkiraanPemasukanBulan";
         $query = $this->modelsManager->executeQuery($sql);
         $totalData = count($query);
         $totalFiltered = $totalData;  
@@ -77,8 +77,8 @@ class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
         $length = $requestData['length'];
         if (!empty($requestSearch)) {
             //function mencari data user
-                $sql = "SELECT * FROM ViewPemasukanPerbulan WHERE Bulan LIKE '%".$requestSearch."%'";
-                $sql.= "OR pemasukan LIKE '%".$requestSearch."%'";  
+                $sql = "SELECT * FROM ViewPerkiraanPemasukanBulan WHERE bulan_cair LIKE '%".$requestSearch."%'";
+                $sql.= "OR penghasilan LIKE '%".$requestSearch."%'";  
                 $query = $this->modelsManager->executeQuery($sql); 
                 $totalFiltered = count($query);
     
@@ -86,7 +86,7 @@ class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
                 $query = $this->modelsManager->executeQuery($sql); 
             } else {
             //function menampilkan seluruh data
-            $sql = "SELECT * FROM ViewPemasukanPerbulan limit $start,$length" ;
+            $sql = "SELECT * FROM ViewPerkiraanPemasukanBulan limit $start,$length" ;
             $query = $this->modelsManager->executeQuery($sql); 
                 
             }
@@ -98,9 +98,8 @@ class ViewPemasukanPerbulan extends \Phalcon\Mvc\Model
         foreach ($query as $key => $value) {
             $dataUser = array();
             $dataUser[] = $no;
-            $dataUser[] = $value->Bulan;
-            $dataUser[] = $value->pemasukan;
-            
+            $dataUser[] = $value->bulan_cair;
+            $dataUser[] = $value->penghasilan;
           
 
             $data[] = $dataUser;

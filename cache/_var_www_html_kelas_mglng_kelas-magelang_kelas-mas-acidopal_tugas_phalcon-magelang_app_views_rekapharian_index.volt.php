@@ -51,7 +51,7 @@
                                             <div class="small-box bg-aqua">
                                                 <div class="inner">
                                                     <h4>Report Bulanan</h4>
-                                                    <select id="filter-bulan" name="bulan" class="form-control">
+                                                    <select id="Bulan" name="Bulan" class="form-control">
                                                         <option selected="selected"> Pilih Bulan </option>
                                                         <?= $this->Helper->bulan() ?>
                                                     </select>
@@ -103,6 +103,44 @@
             <div class="tab-pane" id="tab_2">
                 <div class="row">
                     <div class="col-xs-12">
+                    <div class="box box-primary collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">REPORT</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                           
+                                <div class="box-body" style="">
+                                    <div class="chart">
+                                        <div class="col-lg-3 col-xs-6">
+                                            <!-- small box -->
+                                            <div class="small-box bg-aqua">
+                                                <div class="inner">
+                                                    <h4>Report Bulanan</h4>
+                                                    <select id="Bulan" name="Bulan" class="form-control">
+                                                        <option selected="selected"> Pilih Bulan </option>
+                                                        <?= $this->Helper->dataBulan() ?>
+                                                    </select>
+                                                </div>
+                                                <button id="btn-filter" class="btn btn-block btn-primary btn-flat"> filter now
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            <!-- /.box-body -->
+                        </div>
                         <div class="box">
                             <div class="box-header">
                                 <h3 class="box-title">Data Table With Full Features</h3>
@@ -285,63 +323,50 @@
 
 
 <script>
-    // Graphic
-    $.ajax({
-         method : "GET",
-         dataType: "html",
-         url : "<?= $this->url->get('Graphic/getGraphic') ?>",
-         success: function(result){
-            var line = new Morris.Line({
-                element: 'line-chart',
-                resize: true,
-                data: JSON.parse(result),
-                xkey: 'tanggal',
-                ykeys: ['nominal'],
-                labels: ['nominal'],
-                parseTime: false,
-                lineColors: ['#3c8dbc'],
-                hideHover: 'auto'
-            });
-         }
-    });
 
     $(document).ready(function () {
-        var dataTable = $('#rab').DataTable({
+        $('#rab').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
                 url: "Rekapharian/getAjaxRab",
                 type: "post",
             }
-        });
-    });
-
-
-    $(document).ready(function () {
-
-        var dataTable = $('#pengeluaran').DataTable({
+        }),
+  
+       $('#pengeluaran').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
                 url: "Rekapharian/getAjaxPengeluaran",
                 type: "post",
             }
-        });
-    });
-    
-    $(document).ready(function () {
-        var dataTable = $('#pemasukan').DataTable({
+        }),
+
+        $('#btn-filter').click(function() {
+            $('#pengeluaran').DataTable().destroy();
+            $('#pengeluaran').DataTable({
+               "pageLength": 25,
+               "ajax": {
+                  url: "Rekapharian/getAjaxPengeluaran",
+                  type: "POST",
+                  data: {
+                     "Bulan": $('#Bulan').val()
+                  }
+               }
+            })
+         }),
+
+        $('#pemasukan').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
                 url: "Rekapharian/getAjaxPemasukan",
                 type: "post",
             }
-        });
-    });
-    
-    $(document).ready(function () {
-        var dataTable = $('#penghasilan').DataTable({
+        }),
+   
+        $('#penghasilan').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {

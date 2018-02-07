@@ -37,8 +37,6 @@
 {{ javascript_include("assets/bower_components/jquery/dist/jquery.min.js")}}
 
 <!-- DataTables -->
-{{ javascript_include("assets/bower_components/datatables.net/js/jquery.dataTables.min.js")}} 
-{{ javascript_include("assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js")}}
 
 <!-- morris-->
 {{ stylesheet_link("assets/bower_components/morris.js/morris.css")}}
