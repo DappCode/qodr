@@ -123,9 +123,8 @@
                                             <!-- small box -->
                                             <div class="small-box bg-aqua">
                                                 <div class="inner">
-                                                    <h4>Report Bulanan</h4>
-                                                    <select id="Bulan" name="Bulan" class="form-control">
-                                                        <option selected="selected"> Pilih Bulan </option>
+                                                    <h4>Filter Bulanan</h4>
+                                                    <select id="Bulan_pengeluaran" name="Bulan" class="form-control">
                                                         <?= $this->Helper->dataBulan() ?>
                                                     </select>
                                                 </div>
@@ -351,7 +350,7 @@
                   url: "Rekapharian/getAjaxPengeluaran",
                   type: "POST",
                   data: {
-                     "Bulan": $('#Bulan').val()
+                     "Bulan": $('#Bulan_pengeluaran').val()
                   }
                }
             })

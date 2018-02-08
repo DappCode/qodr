@@ -47,9 +47,9 @@ class Helpers
        $dataBulan = '<option value="">- Pilih Bulan -</option>';
        foreach ($Bulan as $key => $value) {
           if ($selected == date("m", strtotime($value->Bulan))) {
-             $dataBulan.='<option value="'.date("m", strtotime($value->Bulan)).'" selected>'.date('F', strtotime($value->Bulan)).'</option>';
+             $dataBulan.='<option value="-'.date("m", strtotime($value->Bulan)).'-" selected>'.date('F', strtotime($value->Bulan)).'</option>';
           } else {
-             $dataBulan.='<option value="'.date('m',strtotime($value->Bulan)).'" >'.date('F',strtotime($value->Bulan)).'</option>';
+             $dataBulan.='<option value="-'.date('m',strtotime($value->Bulan)).'-" >'.date('F',strtotime($value->Bulan)).'</option>';
              
           }
        }

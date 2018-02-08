@@ -74,7 +74,7 @@ class RekapharianController extends \Phalcon\Mvc\Controller
     public function getAjaxPengeluaranAction()
     {
         $user = new ViewPengeluaranPerhari();
-        $bulan = '%';
+        $bulan = ''; 
         if (!empty($_POST["Bulan"])) {
             $bulan = $this->request->getPost('Bulan');
         } 

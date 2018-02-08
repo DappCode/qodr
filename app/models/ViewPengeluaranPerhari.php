@@ -178,8 +178,8 @@ class ViewPengeluaranPerhari extends \Phalcon\Mvc\Model
     public function filter($Bulan)
     {
 
-    $requestData = $_REQUEST;
-    $requestSearch = strtoupper($requestData['search']['value']);
+        $requestData = $_REQUEST;
+    $requestSearch = $Bulan;
 
     $filter = '%'.$Bulan.'-%';
 
@@ -187,40 +187,41 @@ class ViewPengeluaranPerhari extends \Phalcon\Mvc\Model
        $query = $this->modelsManager->executeQuery($sql);
        $totalData = count($query);
        $totalFiltered = $totalData;  
-       $no = $requestData['start']+1;
-       $start = $requestData['start'];
-       $length = $requestData['length'];
+    //    $no = $requestData['start']+1;
+    //    $start = $requestData['start'];
+    //    $length = $requestData['length'];
        if (!empty($requestSearch)) {
            //function mencari data user
                $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '%".$requestSearch."%'";
-               $sql.= "OR Pengeluaran LIKE '%".$requestSearch."%'";
                $query = $this->modelsManager->executeQuery($sql); 
                $totalFiltered = count($query);
-   
-               $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
                $query = $this->modelsManager->executeQuery($sql); 
            } else {
            //function menampilkan seluruh data
-               $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '$filter' limit $start,$length" ;
+               $sql = "SELECT * FROM ViewPengeluaranPerhari WHERE Hari LIKE '$filter'" ;
                $query = $this->modelsManager->executeQuery($sql); 
+               
            }
        $data = array();
-       $no = $requestData['start']+1;
+       $no = 1;
        
        foreach($query as $key => $value) {
           $dataAkun = array();
           $dataAkun[] = $no;
           $dataAkun[] = $value->Hari; 
           $dataAkun[] = "Rp ".number_format($value->Pengeluaran);
+          $dataAkun[] = '
+          <button id="btn-view" type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default" 
+          onclick="return send_data_view_pengeluaran(\''.$value->Hari.'\');">View</button>';
           $data[] = $dataAkun;
           $no++;
        }
        $json_data = array(
-          "draw"            => intval( $requestData['draw'] ),
+          "draw"            => 0,
           "recordsTotal"    => intval( $totalData ),
           "recordsFiltered" => intval( $totalFiltered ),
           "data"            => $data
-       );
+       ); 
        return $json_data;
     }
 }
